@@ -23,6 +23,8 @@ $templateParameters = @{
     arrayParam = @(1,2,3,4)
 }
 
+Test-AzureRmResourceGroupDeployment -ResourceGroupName $ResourceGroup -TemplateFile .\ParameterExamples.json -TemplateParameterObject $templateParameters
+
 azd -Name "Parameter-Example" -ResourceGroupName $ResourceGroup -TemplateFile .\ParameterExamples.json `
     -TemplateParameterObject $templateParameters
 
@@ -34,7 +36,6 @@ $templateParameters = @{
 
 azd -Name "Parameter-Example" -ResourceGroupName $ResourceGroup -TemplateFile .\ParameterExamples.json `
     -TemplateParameterObject $templateParameters
-
 
 #Variables Demo
 azd -Name "Variable-Example" -TemplateFile .\VariableExamples.json -ResourceGroupName $ResourceGroup
@@ -53,6 +54,11 @@ $templateParameters = @{
 }
 
 azd -Name "Basic-VM" -ResourceGroupName $ResourceGroup -TemplateFile .\101-1vm-2nics-2subnets-1vnet.json -TemplateParameterObject $templateParameters
+
+#Nested Templates demo
+azd -Name "NestedInline" -ResourceGroupName $ResourceGroup -TemplateFile .\NestedTemplateInline.json
+
+
 
 #Cleanup after yourself, don't be a SLOB
 Remove-AzureRmResourceGroup -Name $ResourceGroup -Force:$true
