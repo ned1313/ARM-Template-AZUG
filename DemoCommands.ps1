@@ -58,8 +58,22 @@ azd -Name "Basic-VM" -ResourceGroupName $ResourceGroup -TemplateFile .\101-1vm-2
 #Nested Templates demo
 azd -Name "NestedInline" -ResourceGroupName $ResourceGroup -TemplateFile .\NestedTemplateInline.json
 
+cd NestedTemplateExample
 
+$templateParameters = @{
+    VMSize = "S"
+    adminUsername = $vmCredential.UserName
+    adminPassword = $vmCredential.Password
+    dnsLabelPrefix = "azugexample"
+}
 
+Test-AzureRmResourceGroupDeployment -ResourceGroupName $ResourceGroup -TemplateFile .\master.json -TemplateParameterObject $templateParameters
+
+azd -Name "LinkedTemplate" -ResourceGroupName $ResourceGroup -TemplateFile .\master.json -TemplateParameterObject $templateParameters
+
+$templateParameters.VMSize = "M"
+
+azd -Name "LinkedTemplate" -ResourceGroupName $ResourceGroup -TemplateFile .\master.json -TemplateParameterObject $templateParameters -Mode Incremental
 #Cleanup after yourself, don't be a SLOB
 Remove-AzureRmResourceGroup -Name $ResourceGroup -Force:$true
 
