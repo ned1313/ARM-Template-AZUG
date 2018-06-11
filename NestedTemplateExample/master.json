@@ -17,11 +17,11 @@
               "defaultValue": ""
 
         },
-        "vnetId": {
+        "subnetRef": {
             "type": "string",
             "defaultValue": "null",
             "metadata": {
-                "description": "The ID of the Vnet to use for deployment.  Leave null if creating a new Vnet."
+                "description": "The subnet on which to deploy the VM.  Leave null to create new Vnet"
             }
         },
         "vnetName": {
@@ -121,7 +121,7 @@
     "resources": [ 
         {
             "name": "vnetDeployment",
-            "condition": "[equals(parameters('vnetId'), 'null')]",
+            "condition": "[equals(parameters('subnetRef'), 'null')]",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2016-09-01",
             "properties":{
@@ -179,7 +179,7 @@
                         "value": "[parameters('location')]"
                     },
                     "subnet1Ref": {
-                        "value": "[reference('vnetDeployment').outputs.subnet1Ref.value]"
+                        "value": "[if(equals(parameters('subnetRef'), 'null'),reference('vnetDeployment').outputs.subnet1Ref.value,parameters('subnetRef'))]"
                     },
                     "VMSize": {
                         "value": "[parameters('VMSize')]"
