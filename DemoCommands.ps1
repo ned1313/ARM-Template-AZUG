@@ -36,6 +36,24 @@ azd -Name "Parameter-Example" -ResourceGroupName $ResourceGroup -TemplateFile .\
     -TemplateParameterObject $templateParameters
 
 
+#Variables Demo
+azd -Name "Variable-Example" -TemplateFile .\VariableExamples.json -ResourceGroupName $ResourceGroup
+
+#Function Demo
+azd -Name "Function-Example" -TemplateFile .\FunctionExample.json -ResourceGroupName $ResourceGroup
+
+#Resources Demo
+$vmCredential = Get-Credential -UserName "azugAdmin" -Message "Password for new VM"
+
+$templateParameters = @{
+    virtualMachineSize = "Standard_D2_v3"
+    adminUsername = $vmCredential.UserName
+    adminPassword = $vmCredential.Password
+    storageAccountType = "Standard_LRS"
+}
+
+azd -Name "Basic-VM" -ResourceGroupName $ResourceGroup -TemplateFile .\101-1vm-2nics-2subnets-1vnet.json -TemplateParameterObject $templateParameters
+
 #Cleanup after yourself, don't be a SLOB
 Remove-AzureRmResourceGroup -Name $ResourceGroup -Force:$true
 

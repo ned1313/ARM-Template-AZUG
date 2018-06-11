@@ -58,6 +58,10 @@
       "MultipleVariables": {
         "type": "array",
         "value": "[variables('MultipleVariables')]"
+      },
+      "SingleVariableReference":{
+        "type": "object",
+        "value": "[variables('MultipleVariables')[1]]"
       }
 
     }
