@@ -47,6 +47,13 @@
           "metadata": {
               "description": "Subnet to place the virtual nic on."
           }
+      },
+      "VMSize": {
+          "type": "string",
+          "defaultValue": "S",
+          "allowedValues": [
+              "S","M","L"
+          ]
       }
     },
     "variables": {
@@ -54,7 +61,12 @@
       "nicName": "myVMNic",
       "publicIPAddressName": "myPublicIP",
       "vmName": "SimpleWinVM",
-      "subnetRef": "[parameters('subnet1Ref')]"
+      "subnetRef": "[parameters('subnet1Ref')]",
+      "VMsize": {
+        "S": "Standard_D2_v3",
+        "M": "Standard_D4_v3",
+        "L": "Standard_D8_v3"
+      }
     },
     "resources": [
       {
@@ -116,7 +128,7 @@
         ],
         "properties": {
           "hardwareProfile": {
-            "vmSize": "Standard_A2"
+            "vmSize": "[variables('vmSize')[parameters('VMSize')]]"
           },
           "osProfile": {
             "computerName": "[variables('vmName')]",
