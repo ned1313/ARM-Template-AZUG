@@ -175,9 +175,6 @@
                     "windowsOSVersion": {
                         "value": "[parameters('windowsOSVersion')]"
                     },
-                    "location": {
-                        "value": "[parameters('location')]"
-                    },
                     "subnet1Ref": {
                         "value": "[if(equals(parameters('subnetRef'), 'null'),reference('vnetDeployment').outputs.subnet1Ref.value,parameters('subnetRef'))]"
                     },
