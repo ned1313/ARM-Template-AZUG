@@ -11,10 +11,10 @@ New-AzureRmResourceGroup -Name $ResourceGroup -Location $Location
 New-Alias -Name azd -Value New-AzureRmResourceGroupDeployment
 
 #Hello World Demo
-azd -Name "Hello-World" -ResourceGroupName $ResourceGroup -TemplateFile .\HelloWorld.json
+New-AzureRmResourceGroupDeployment -Name "Hello-World" -ResourceGroupName $ResourceGroup -TemplateFile .\HelloWorld.json
 
 #Parameter Demo
-azd -Name "Parameter-Example" -ResourceGroupName $ResourceGroup -TemplateFile .\ParameterExamples.json
+New-AzureRmResourceGroupDeployment -Name "Parameter-Example" -ResourceGroupName $ResourceGroup -TemplateFile .\ParameterExamples.json
 
 #Create a Parameter Object
 $templateParameters = @{
@@ -25,7 +25,7 @@ $templateParameters = @{
 
 Test-AzureRmResourceGroupDeployment -ResourceGroupName $ResourceGroup -TemplateFile .\ParameterExamples.json -TemplateParameterObject $templateParameters
 
-azd -Name "Parameter-Example" -ResourceGroupName $ResourceGroup -TemplateFile .\ParameterExamples.json `
+New-AzureRmResourceGroupDeployment -Name "Parameter-Example" -ResourceGroupName $ResourceGroup -TemplateFile .\ParameterExamples.json `
     -TemplateParameterObject $templateParameters
 
 $templateParameters = @{
@@ -34,14 +34,14 @@ $templateParameters = @{
     arrayParam = @(1,2,3,4)
 }
 
-azd -Name "Parameter-Example" -ResourceGroupName $ResourceGroup -TemplateFile .\ParameterExamples.json `
+New-AzureRmResourceGroupDeployment -Name "Parameter-Example" -ResourceGroupName $ResourceGroup -TemplateFile .\ParameterExamples.json `
     -TemplateParameterObject $templateParameters
 
 #Variables Demo
-azd -Name "Variable-Example" -TemplateFile .\VariableExamples.json -ResourceGroupName $ResourceGroup
+New-AzureRmResourceGroupDeployment -Name "Variable-Example" -TemplateFile .\VariableExamples.json -ResourceGroupName $ResourceGroup
 
 #Function Demo
-azd -Name "Function-Example" -TemplateFile .\FunctionExample.json -ResourceGroupName $ResourceGroup
+New-AzureRmResourceGroupDeployment -Name "Function-Example" -TemplateFile .\FunctionExample.json -ResourceGroupName $ResourceGroup
 
 #Resources Demo
 $vmCredential = Get-Credential -UserName "azugAdmin" -Message "Password for new VM"
@@ -53,12 +53,12 @@ $templateParameters = @{
     storageAccountType = "Standard_LRS"
 }
 
-azd -Name "Basic-VM" -ResourceGroupName $ResourceGroup -TemplateFile .\101-1vm-2nics-2subnets-1vnet.json -TemplateParameterObject $templateParameters
+New-AzureRmResourceGroupDeployment -Name "Basic-VM" -ResourceGroupName $ResourceGroup -TemplateFile .\101-1vm-2nics-2subnets-1vnet.json -TemplateParameterObject $templateParameters
 
 #Nested Templates demo
-azd -Name "NestedInline" -ResourceGroupName $ResourceGroup -TemplateFile .\NestedTemplateInline.json
+New-AzureRmResourceGroupDeployment -Name "NestedInline" -ResourceGroupName $ResourceGroup -TemplateFile .\NestedTemplateInline.json
 
-cd NestedTemplateExample
+Set-Location NestedTemplateExample
 
 $templateParameters = @{
     VMSize = "S"
@@ -69,11 +69,12 @@ $templateParameters = @{
 
 Test-AzureRmResourceGroupDeployment -ResourceGroupName $ResourceGroup -TemplateFile .\master.json -TemplateParameterObject $templateParameters
 
-azd -Name "LinkedTemplate" -ResourceGroupName $ResourceGroup -TemplateFile .\master.json -TemplateParameterObject $templateParameters
+New-AzureRmResourceGroupDeployment -Name "LinkedTemplate" -ResourceGroupName $ResourceGroup -TemplateFile .\master.json -TemplateParameterObject $templateParameters
 
 $templateParameters.VMSize = "M"
 
-azd -Name "LinkedTemplate" -ResourceGroupName $ResourceGroup -TemplateFile .\master.json -TemplateParameterObject $templateParameters -Mode Incremental
+New-AzureRmResourceGroupDeployment -Name "LinkedTemplate" -ResourceGroupName $ResourceGroup -TemplateFile .\master.json -TemplateParameterObject $templateParameters -Mode Incremental
+
 #Cleanup after yourself, don't be a SLOB
 Remove-AzureRmResourceGroup -Name $ResourceGroup -Force:$true
 

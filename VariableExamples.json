@@ -51,6 +51,14 @@
     "resources": [
     ],
     "outputs": {
+        "BasicVariable": {
+            "type": "string",
+            "value": "[variables('BasicVariable')]"
+        },
+        "ComplexVariable": {
+            "type": "object",
+            "value": "[variables('ComplexVariable')]"
+        },
       "VariableWithCopy": {
         "type": "object",
         "value": "[variables('VariableWithCopy')]"
