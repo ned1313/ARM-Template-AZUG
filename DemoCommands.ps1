@@ -45,7 +45,7 @@ New-AzureRmResourceGroupDeployment -Name "Function-Example" -TemplateFile .\Func
 
 #Resources Demo
 $vmCredential = Get-Credential -UserName "azugAdmin" -Message "Password for new VM"
-
+###
 $templateParameters = @{
     virtualMachineSize = "Standard_D2_v3"
     adminUsername = $vmCredential.UserName
