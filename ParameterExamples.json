@@ -40,6 +40,10 @@
             "type": "bool",
             "defaultValue": false,
             "metadata" : { "description": "I'm a bool!" }	
+        },
+        "conditionalParam" : {
+            "type": "string",
+            "defaultValue": "[if(equals(parameters('intParam'),1),'yes','no')]"
         }
 	},
 	"variables": {},
@@ -68,6 +72,10 @@
         "boolParamOut": {
 			"value": "[parameters('boolParam')]",
 			"type" : "bool"
+        },
+        "conditionalParamOut": {
+			"value": "[parameters('conditionalParam')]",
+			"type" : "string"
         }
 	}
 }
